@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+        :root {
+            --main-color: #2980b9;
+            --red: #e74c3c;
+            --orange: #f39c12;
+            --light-color: #666;
+            --light-bg: #eee;
+            --white: #fff;
+            --black: #2c3e50;
+            --border: .1rem solid rgba(0, 0, 0, .3);
+            --box-shodow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        }
+
+        * {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            text-decoration: none;
+        }
+
+        *::selection {
+            background-color: var(--main-color);
+            color: var(--white);
+        }
+
+        *::-webkit-scrollbar {
+            height: .5rem;
+            width: 1rem;
+        }
+
+        *::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--main-color);
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--white);
+            /* padding-bottom: 8rem; */
+        }
+
+        section {
+            padding: 2.5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .heading {
+            text-align: center;
+            padding-bottom: 2.5rem;
+            font-size: 3rem;
+            color: var(--black);
+            text-transform: capitalize;
+        }
+
+        .empty {
+            width: 100%;
+            background-color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+            color: var(--red);
+            border-radius: .5rem;
+            text-transform: capitalize;
+            box-shadow: var(--box-shodow);
+            border: var(--border);
+        }
+
+        .btn,
+        .delete-btn,
+        .btn222 {
+            display: block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1rem 3rem;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 1.8rem;
+            text-transform: capitalize;
+            border-radius: .5rem;
+        }
+
+        a.btn:hover {
+            background-color: var(--black);
+        }
+
+        .btn,
+        .btn222 {
+            background-color: var(--black);
+        }
+
+        .btn222 {
+            font-size: 1rem;
+            display: inline;
+            width: 19%;
+            font-size: 1rem;
+            padding: 1.4rem;
+
+
+        }
+
+        .delete-btn {
+            background-color: var(--red);
+        }
+
+        a.btn:hover,
+        .delete-btn:hover {
+            background-color: #53606d;
+
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: var(--box-shodow);
+            background-color: var(--white);
+        }
+
+        .header .flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .header .flex .logo {
+            font-size: 2.5rem;
+            color: var(--black);
+        }
+
+        .header .flex .navbar a {
+            color: var(--black);
+            margin-left: 2rem;
+            font-size: 1.8rem;
+            text-transform: capitalize;
+        }
+
+        .header .flex .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .header .flex .navbar a span {
+            margin-left: 1rem;
+            padding: .3rem .7rem;
+            background-color: var(--white);
+            color: var(--black);
+            border-radius: .5rem;
+        }
+
+        #menu-btn {
+            font-size: 2.5rem;
+            color: var(--black);
+            display: none;
+        }
+
+        .product-form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 15rem);
+        }
+
+        .product-form form {
+            border: var(--border);
+            border-radius: .5rem;
+            padding: 2rem;
+            width: 50rem;
+            background-color: var(--white);
+            box-shadow: var(--box-shodow);
+        }
+
+        .product-form form h3 {
+            padding-bottom: 1rem;
+            font-size: 2.5rem;
+            color: var(--black);
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        .product-form form p {
+            padding-top: 1rem;
+            font-size: 1.7rem;
+            color: var(--light-color);
+        }
+
+        .product-form form p span {
+            color: red;
+        }
+
+        .product-form form .box,
+        form .box222 {
+            width: 100%;
+            border-radius: .5rem;
+            background-color: var(--light-bg);
+            margin: 1rem 0;
+            font-size: 1.8rem;
+            color: var(--black);
+            padding: 1.4rem;
+        }
+
+        .box222 {
+            font-size: 1rem !important;
+
+            width: 79% !important;
+        }
+
+        .products .box-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 35rem);
+            align-items: flex-start;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .products .box-container .box {
+            border: var(--border);
+            box-shadow: var(--box-shodow);
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: .5rem;
+        }
+
+        .products .box-container .box .image {
+            height: 20rem;
+            width: 100%;
+            object-fit: contain;
+            margin-bottom: 2rem;
+        }
+
+        .products .box-container .box .name {
+            font-size: 2rem;
+            color: var(--black);
+        }
+
+        .products .box-container .box .flex {
+            padding-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .products .box-container .box .price {
+            font-size: 1.7rem;
+            color: var(--red);
+            margin-right: auto;
+        }
+
+        .products .box-container .box .flex .qty,
+        .qty222 {
+            border: var(--border);
+            border-radius: .5rem;
+            padding: .5rem 1rem;
+            width: 6.5rem;
+            font-size: 1.8rem;
+            color: var(--black);
+        }
+
+        .qty222 {
+            width: 6.5rem;
+        }
+
+        .products .box-container .box .flex .fa-edit {
+            background-color: var(--orange);
+            border-radius: .5rem;
+            font-size: 1.7rem;
+            color: var(--white);
+            height: 3.5rem;
+            width: 4.5rem;
+            cursor: pointer;
+        }
+
+        .products .box-container .box .flex .fa-edit:hover {
+            background-color: var(--black);
+        }
+
+        .products .box-container .box .sub-total {
+            padding-bottom: 1rem;
+            font-size: 1.7rem;
+            color: var(--light-color);
+        }
+
+        .products .box-container .box .sub-total span {
+            color: var(--red);
+        }
+
+        .products .cart-total {
+            max-width: 40rem;
+            margin: 0 auto;
+            background-color: var(--white);
+            margin-top: 2rem;
+            border-radius: .5rem;
+            border: var(--border);
+            padding: 2rem;
+            box-shadow: var(--box-shodow);
+        }
+
+        .products .cart-total p {
+            padding-bottom: 1rem;
+            font-size: 2rem;
+            color: var(--light-color);
+        }
+
+        .products .cart-total p span {
+            color: var(--red);
+        }
+
+        .checkout .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-end;
+            flex-wrap: wrap-reverse;
+        }
+
+        .checkout .row form {
+            flex: 1 1 50rem;
+            background-color: var(--white);
+            box-shadow: var(--box-shodow);
+            padding: 2rem;
+            border-radius: .5rem;
+            border: var(--border);
+        }
+
+        .checkout .row form h3 {
+            font-size: 2.5rem;
+            color: var(--black);
+            padding-bottom: 1rem;
+            text-align: center;
+            text-transform: capitalize;
+        }
+
+        .checkout .row form .input,
+        .input222 {
+            width: 100%;
+            background-color: var(--light-bg);
+            border-radius: .5rem;
+            padding: 1.4rem;
+            color: var(--black);
+            font-size: 1.8rem;
+            margin: 1rem 0;
+        }
+
+        .checkout .row form .flex {
+            display: flex;
+            column-gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .checkout .row form .flex .box {
+            flex: 1 1 30rem;
+        }
+
+        .checkout .row form p {
+            padding-top: 1rem;
+            font-size: 1.6rem;
+            color: var(--light-color);
+        }
+
+        .checkout .row form p span {
+            color: var(--red);
+        }
+
+        .checkout .row form textarea {
+            height: 15rem;
+            resize: none;
+        }
+
+        .checkout .row .summary {
+            background-color: var(--white);
+            box-shadow: var(--box-shodow);
+            padding: 2rem;
+            border-radius: .5rem;
+            border: var(--border);
+            flex: 1 1 30rem;
+        }
+
+        .checkout .row .summary .title {
+            font-size: 2.2rem;
+            color: var(--black);
+            border-bottom: var(--border);
+            margin-bottom: .5rem;
+            text-transform: capitalize;
+            padding-bottom: 1.5rem;
+        }
+
+        .checkout .row .summary .flex {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .checkout .row .summary .flex img {
+            height: 6rem;
+            width: 6rem;
+            object-fit: contain;
+        }
+
+        .checkout .row .summary .flex .name {
+            font-size: 1.8rem;
+            color: var(--black);
+            padding-bottom: .5rem;
+        }
+
+        .checkout .row .summary .flex .price {
+            font-size: 1.6rem;
+            color: var(--red);
+        }
+
+        .checkout .row .summary .grand-total {
+            background-color: #000;
+            border-radius: .5rem;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .checkout .row .summary .grand-total span {
+            color: var(--light-color);
+        }
+
+        .checkout .row .summary .grand-total p {
+            color: var(--red);
+        }
+
+        .orders .box-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 35rem);
+            align-items: flex-start;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .orders .box-container .box {
+            background-color: var(--white);
+            border-radius: .5rem;
+            border: var(--border);
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .orders .box-container .box .date {
+            padding: 1rem 1.5rem;
+            color: var(--light-color);
+            background-color: var(--light-bg);
+            font-size: 1.6rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border-radius: .5rem;
+        }
+
+        .orders .box-container .box .date i {
+            margin-right: 1rem;
+            color: var(--main-color);
+        }
+
+        .orders .box-container .box .image {
+            height: 20rem;
+            width: 100%;
+            object-fit: contain;
+            margin: 1rem 0;
+        }
+
+        .orders .box-container .box .name {
+            font-size: 2rem;
+            color: var(--black);
+            text-overflow: ellipsis;
+            margin: 1rem 0;
+            overflow-x: hidden;
+        }
+
+        .orders .box-container .box .price {
+            color: var(--red);
+            font-size: 1.8rem;
+            padding: .5rem 0;
+        }
+
+        .orders .box-container .box .status {
+            padding-top: .5rem;
+            font-size: 1.7rem;
+        }
+
+        .orders .box-container .box:hover {
+            box-shadow: var(--box-shodow);
+        }
+
+        .orders .box-container .box:hover .date {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        .orders .box-container .box:hover .date i {
+            color: var(--white);
+        }
+
+        .order-details .box-container {
+            background-color: var(--white);
+            border: var(--border);
+            border-radius: .5rem;
+            padding: 2rem;
+            box-shadow: var(--box-shodow);
+        }
+
+        .order-details .box-container .box {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+        .order-details .box-container .box .col {
+            flex: 1 1 40rem;
+        }
+
+        .order-details .box-container .box .col .image {
+            height: 17rem;
+            width: 100%;
+            object-fit: contain;
+            margin: 1rem 0;
+        }
+
+        .order-details .box-container .box .col .title {
+            border-radius: .5rem;
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            font-size: 1.7rem;
+            color: var(--light-color);
+            background-color: var(--light-bg);
+            display: inline-block;
+            text-transform: capitalize;
+        }
+
+        .order-details .box-container .box .col .title i {
+            margin-right: 1rem;
+            color: var(--black);
+        }
+
+        .order-details .box-container .box .col .price {
+            color: var(--red);
+            font-size: 1.8rem;
+            padding: .5rem 0;
+        }
+
+        .order-details .box-container .box .col .name {
+            font-size: 2rem;
+            color: var(--black);
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+        }
+
+        .order-details .box-container .box .col .user {
+            padding: .7rem 0;
+            font-size: 1.7rem;
+            color: var(--light-color);
+            line-height: 1.5;
+        }
+
+        .order-details .box-container .box .col .user i {
+            margin-right: 1rem;
+            color: var(--main-color);
+        }
+
+        .order-details .box-container .box .col .grand-total {
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+            border-radius: .5rem;
+            text-transform: capitalize;
+            margin-top: 1.5rem;
+        }
+
+        .order-details .box-container .box .col .grand-total span {
+            color: var(--orange);
+        }
+
+        .order-details .box-container .box .col .status {
+            font-size: 1.8rem;
+            padding: .5rem 0;
+        }
+
+        footer a {
+            font-size: 20px;
+        }
+
+        footer h3 {
+            font-size: 30px;
+        }
+
+        footer p,
+        footer pre {
+            font-size: 15px;
+        }
+
+
+
+        @media (max-width:991px) {
+
+            html {
+                font-size: 55%;
+            }
+
+        }
+
+        @media (max-width:768px) {
+
+            #menu-btn {
+                display: inline-block;
+            }
+
+            .header .flex .navbar {
+                position: absolute;
+                top: 99%;
+                left: 0;
+                right: 0;
+                background-color: var(--black);
+                padding: 1rem 2rem;
+                border-top: .1rem solid var(--white);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: .2s linear;
+            }
+
+            .header .flex .navbar.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            }
+
+            .header .flex .navbar a {
+                display: block;
+                width: 100%;
+                margin: 1rem 0;
+                padding: 1rem 0;
+            }
+
+        }
+
+        @media (max-width:450px) {
+
+            html {
+                font-size: 50%;
+            }
+
+            .heading {
+                font-size: 2.5rem;
+            }
+
+            .products .box-container {
+                grid-template-columns: 1fr;
+            }
+
+            .orders .box-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        /* Style the dropdown button */
+        .dropbtn {
+            color: var(--black);
+            margin-left: 2rem;
+            font-size: 1.8rem;
+            text-transform: capitalize;
+            background-color: transparent;
+
+
+        }
+
+        .dropdown {
+            display: inline;
+        }
+
+        /* Style the dropdown content (hidden by default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Style the links inside the dropdown */
+        .dropdown-content a,
+        .dropdown-content p {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change the background color of the dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #666;
+            color: var(--white) !important;
+        }
+
+        /* Show the dropdown menu when the button is hovered */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .catname {
+            color: var(--black) !important;
+            font-size: 15px;
+        }
+
+        .name-sec .name {
+            float: left;
+        }
+
+        .name-sec .price {
+            float: right;
+        }
+
+        .name-sec .clearfix {
+            clear: both;
+        }
+
+        .footer {
+            background-color: var(--white);
+            color: var(--black);
+            padding: 4rem 2rem;
+            font-size: 1.4rem;
+            box-shadow: var(--box-shodow);
+            border-top: var(--border);
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer h3 {
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li a {
+            color: var(--black);
+            text-decoration: none;
+            display: block;
+            margin-bottom: .5rem;
+        }
+
+        .footer p {
+            line-height: 1.8;
+        }
+
+        .footer .social-icons a {
+            color: var(--black);
+            margin-right: 1rem;
+        }
+
+        .footer hr {
+            margin: 3rem 0;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .copyright {
+            text-align: center;
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+        }
+
+        footer a {
+            font-size: 20px;
+        }
+
+        footer h3 {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        footer p,
+        footer pre {
+            font-size: 15px;
+        }
+
+
+
+        footer :last-child,
+        footer .container {
+            border-left: none;
+        }
+
+        footer div {
+            padding: 3px;
+        }
+
+        @media(min-width: 552px) {
+            footer div {
+                border-left: 1px solid #000;
+            }
+
+            footer :last-child,
+            footer .container {
+                border-left: none;
+            }
+        }
+
+        @media(max-width: 552px) {
+            footer div {
+                border-bottom: 1px solid #000;
+            }
+
+            footer :last-child,
+            footer .container {
+                border-bottom: none;
+            }
+        }
+
+        .old-price {
+            color: #adadad !important;
+            text-decoration: line-through 1px;
+            /* margin-right: 1rem !important; */
+            /* margin-left: 1rem !important; */
+            font-size: 1.3rem !important;
+        }
+    </style>
+    <style>
+        swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+
+        swiper-container {
+            width: 100%;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        swiper-slide {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mySwiper {
+            height: 80%;
+            width: 100%;
+        }
+
+        .mySwiper2 {
+            height: 20%;
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+        .mySwiper2 swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .mySwiper2 .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        swiper-container.mySwiper {
+            height: 300px !important;
+            width: 300px !important;
+        }
+
+        swiper-container.mySwiper2 {
+            width: 300px !important;
+
+        }
+
+        @media (max-width: 360px) {
+
+            swiper-container.mySwiper {
+                height: 200px !important;
+                width: 200px !important;
+            }
+
+            swiper-container.mySwiper2 {
+                width: 200px !important;
+
+            }
+        }
+
+        .col {
+            min-height: 250px;
+            /* ensure col expands */
+        }
+
+        .box,
+        .col {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        swiper-container.mySwiper {
+            height: 200px;
+            display: block;
+        }
+
+        .size-btn {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 1rem;
+            background-color: white;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .size-btn.selected {
+            background-color: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        #order-form input, #order-form textarea {
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: .8rem;
+            border: 1px solid #ccc;
+        }
+        #order-form label {
+            color: #000;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+</head>
+
+<body>
+    <header class="header">
+
+        <section class="flex">
+            <a href="index.html" class="logo">רהיטים אונליין - Amereco</a>
+            <form action="index.html" method="GET">
+                <input type="text" name="q" placeholder="Search Bar" class="box222">
+
+                <button type="submit" class="btn222"><i class="fas fa-search"></i></button>
+            </form>
+
+
+            <!-- <nav class="navbar">
+                <div class="dropdown">
+                    <button class="dropbtn">Categories <i class="fa fa-caret-down"></i></button>
+                    <div class="dropdown-content">
+                        <p class="catname">test1</p><a href="#">subtest1</a>
+                        <p class="catname">test2</p><a href="#">subtest2</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div id="menu-btn" class="fas fa-bars"></div> -->
+        </section>
+
+    </header>
+    <a href="https://wa.me/972503581852" class="whatsapp-button" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp Contact" />
+    </a>
+
+
+
+
+    <section class="order-details">
+
+        <!-- <h1 class="heading"></h1> -->
+
+        <div class="box-container">
+
+
+            <div class="box">
+
+                <div class="col">
+                    <div class="swiper-container">
+                        <swiper-container style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                            class="mySwiper" thumbs-swiper=".mySwiper2" space-between="10" navigation="true">
+
+
+                        </swiper-container>
+
+                        <swiper-container class="mySwiper2" space-between="10" slides-per-view="4" free-mode="true"
+                            watch-slides-progress="true">
+
+
+                        </swiper-container>
+                    </div>
+
+                    <h3 class="name"></h3>
+                    <!-- <h3 class="name">Category: test1</h3>
+                    <h3 class="name">Sub Category: subtest1</h3> -->
+                    <p class="grand-total">
+                        המחיר
+                        <span class="old-price"></span>
+                        <span class="price"></span>
+
+
+                    </p>
+                    <!-- ✅ اختيار العدد -->
+                    <div style="margin: 1rem 0;">
+                        <label for="quantity"
+                            style="display: block; font-size: 2rem; font-weight: bold;">כמות:</label>
+                        <div style="text-align: center;">
+                            <input type="number" id="quantity" value="1" min="1"
+                                style="padding: 0.5rem; width: 100px;  text-align: center; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: .3rem;">
+                        </div>
+
+                    </div>
+
+                    <!-- ✅ اختيار المقاس -->
+                    
+                    <div style="margin: 1rem 0;">
+                        <label style="display: block;  font-size: 2rem; font-weight: bold;">רוחב:</label>
+                        <div id="size-buttons" style=" text-align: center;  margin-top: 0.5rem;"></div>
+                    </div>
+
+
+
+
+                    <button class="btn" onclick="openOrderModal()">קנה עכשיו</button>
+
+                    <!-- <a href="#" target="_blank" id="buy-btn" class="btn"></a> -->
+                </div>
+                <div class="col">
+                    <p class="title">פרטי מוצר</p>
+                    <p class="user"></p>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <footer class="footer">
+        <div class="container">
+
+            <!-- عن المتجر -->
+            <div>
+                <h3>רהיטים אונליין - Amereco</h3>
+                <p>מזנונים בהתאמה אישית – עיצוב שמותאם בדיוק לכם!
+                    המזנון הוא לב הסלון, והוא צריך להיות יפה, פונקציונלי ומותאם בדיוק לצרכים שלכם. אצלנו במנזנה תוכלו
+                    לבחור את החומר, הצבעים והמידות כדי ליצור מזנון שמשתלב בצורה מושלמת עם הסגנון שלכם!
+                <p>✅ עיצוב ייחודי בהתאמה אישית<br>✅ איכות גבוהה ללא פשרות<br>✅ פונקציונליות שמתאימה בדיוק לבית שלכם
+                </p>
+
+            </div>
+
+            <!-- روابط سريعة -->
+            <div>
+                <h3>אתרי רשתות חברתיות</h3>
+                <ul>
+
+                    <li><a target="_blank" href="https://www.facebook.com/AmirKitchens"><i
+                                class="fab fa-facebook-f"></i> פייסבוק </a></li>
+                    <li><a target="_blank" href="https://wa.me/972503581852"><i class="fab fa-whatsapp"></i> וזה נספר
+                        </a></li>
+
+                </ul>
+            </div>
+
+            <!-- الدعم -->
+            <div>
+                <h3>קישורים</h3>
+                <ul>
+                    <li><a href="index.html">בַּיִת</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+        <p class="copyright">&copy; <span id="year"></span> כל הזכויות שמורות Amereco</p>
+    </footer>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+
+        let navbar = document.querySelector('.header .flex .navbar');
+
+        document.querySelector('#menu-btn').onclick = () => {
+            navbar.classList.toggle('active');
+        }
+
+        window.onscroll = () => {
+            navbar.classList.remove('active');
+        }
+
+        document.querySelectorAll('input[type="number"]').forEach(inputNumber => {
+            inputNumber.oninput = () => {
+                if (inputNumber.value.length > inputNumber.maxLength) inputNumber.value = inputNumber.value.slice(0, inputNumber.maxLength);
+            };
+        });
+
+    </script>
+
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productId = parseInt(params.get("id"));
+
+        let selectedSize = ""; // ✅ متغير المقاس المختار
+
+        fetch("http://localhost:8000/data.html").then(res => res.text()).then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const jsonText = doc.querySelector("#products-data").textContent;
+            const data = JSON.parse(jsonText);
+
+            const product = data.find(p => p.id === productId);
+            if (!product) return alert("المنتج غير موجود");
+
+            // Fill in the page:
+            document.querySelector(".name").textContent = product.name;
+            document.querySelector(".grand-total span.price").innerHTML = `${product.price} <i class="fa-solid fa-shekel-sign"></i>`;
+            document.querySelector(".grand-total span.old-price").innerHTML = `${product.old_price} <i class="fa-solid fa-shekel-sign"></i>`;
+            // document.querySelector(".title").textContent = "تفاصيل المنتج";
+            document.querySelector(".user").innerHTML = product.description;
+            // document.querySelectorAll(".name")[1].textContent = `Category: ${product.category}`;
+            // document.querySelectorAll(".name")[2].textContent = `Sub Category: ${product.subcategory}`;
+
+            // Generate Swiper slides
+            const mainSwiper = document.querySelector(".mySwiper");
+            const thumbSwiper = document.querySelector(".mySwiper2");
+
+            mainSwiper.innerHTML = "";
+            thumbSwiper.innerHTML = "";
+
+            product.images.forEach(img => {
+                const slide = `<swiper-slide><img src="${img}" /></swiper-slide>`;
+                mainSwiper.innerHTML += slide;
+                thumbSwiper.innerHTML += slide;
+            });
+
+            const sizeContainer = document.getElementById("size-buttons");
+            sizeContainer.innerHTML = ""; // تنظيف أولًا
+            if (Array.isArray(product.sizes) && product.sizes.length > 0) {
+                product.sizes.forEach(size => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "size-btn";
+
+                    btn.dataset.size = size;
+                    btn.textContent = size;
+                    if (product.sizes[0] == size) {
+                        document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected"));
+                        btn.classList.add("selected");
+                        document.querySelectorAll(".size-btn").forEach(b => b.removeAttribute("id"));
+                        btn.id = "selected-size"
+                    }
+                    btn.addEventListener("click", function () {
+                        document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected"));
+                        btn.classList.add("selected");
+                        document.querySelectorAll(".size-btn").forEach(b => b.removeAttribute("id"));
+                        btn.id = "selected-size";
+                        selectedSize = size;
+                    });
+
+                    sizeContainer.appendChild(btn);
+                });
+            } else {
+                sizeContainer.innerHTML = "<p style='color: red;'>لا توجد مقاسات لهذا المنتج</p>";
+            }
+
+        });
+
+
+
+    </script>
+
+
+    <div id="order-modal"
+        style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 10001; justify-content: center; align-items: center;">
+        <div
+            style="background: white; padding: 2rem; border-radius: 1rem; width: 100%; max-width: 400px; position: relative;">
+            <button onclick="closeOrderModal()"
+                style="position: absolute; top: 1rem; left: 1rem; background: none; border: none; font-size: 1.5rem;">×</button>
+
+            <h3 style="margin-bottom: 1rem;">רכישה משלימה</h3>
+
+            <p style="color: rgb(0, 0, 0); font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">
+                🚚 משלוחים רק בין גדרה לחדרה וגם בירושלים.
+            </p>
+            <p style="color: rgb(0, 0, 0); font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">
+                🚚 האורדר יחובר תוך חודש
+            </p>
+
+            <form id="order-form">
+                <label for="name">שם מלא</label>
+                <input type="text" id="name" placeholder="שם מלא" required>
+
+                <label for="phone">מספר טלפון</label>
+                <input type="text" id="phone" placeholder="מספר טלפון" required>
+
+                <label for="city">עִיר</label>
+                <input type="text" id="city" placeholder="עִיר" required>
+
+                <label for="region">אֵזוֹר</label>
+                <input type="text" id="region" placeholder="אֵזוֹר" required>
+                
+                <label for="streat">שם רחוב</label>
+                <input type="text" id="streat" placeholder="שם רחוב" required>
+
+                <label for="building">מספר בניין</label>
+                <input type="text" id="building" placeholder="מספר בניין" required>
+
+                <label for="apartment">מספר דירה</label>
+                <input type="text" id="apartment" placeholder="מספר דירה" required>
+
+                <label for="notes">ההודעה</label>
+                <textarea type="text" id="notes" placeholder="פרטו לנו ככל האפשר, פניות כלליות מקבלות עדיפות נמוכה."></textarea>
+                <button type="submit"
+                    style="width: 100%; padding: 1rem; background: var(--black); color: white; border: none; border-radius: .5rem;">לְאַשֵׁר</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openOrderModal() {
+            document.getElementById("order-modal").style.display = "flex";
+        }
+
+        function closeOrderModal() {
+            document.getElementById("order-modal").style.display = "none";
+        }
+
+        document.getElementById("order-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+
+            const city = document.getElementById("city").value.trim();
+            const region = document.getElementById("region").value.trim();
+            const streat = document.getElementById("streat").value.trim();
+            const building = document.getElementById("building").value.trim();
+            const apartment = document.getElementById("apartment").value.trim();
+            const notes = document.getElementById("notes").value.trim();
+            const quantity = document.getElementById("quantity").value.trim();
+            const size = document.getElementById("selected-size").dataset.size.trim();
+
+            const address = `- עִיר: ${city}\n - אֵזוֹר: ${region}\n - שם רחוב: ${streat}\n - מספר בניין: ${building}\n - מספר דירה: ${apartment}\n. `;
+
+            const productName = document.querySelector(".name").textContent;
+            const message = `שלום, אני מעוניין לרכוש את המוצר הזה ${productName}.\n - כַּמוּת: ${quantity}\n - גוֹדֶל: ${size}\n - שם: ${name}\n - טלפון: ${phone}\n - כתובת: ${address}\n - הערות במוצר: ${notes}.`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/972503581852?text=${encodedMessage}`;
+            // ✅ افتح واتساب بالرابط
+            window.open(whatsappUrl, "_blank");
+            // ✅ إغلاق المودال
+            closeOrderModal();
+        });
+    </script>
+</body>
+
+</html>
