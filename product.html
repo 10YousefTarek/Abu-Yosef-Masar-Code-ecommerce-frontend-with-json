@@ -1201,7 +1201,7 @@
 
         let selectedSize = ""; // ✅ متغير المقاس المختار
 
-        fetch("http://localhost:8000/data.html").then(res => res.text()).then(html => {
+        fetch("https://10youseftarek.github.io/Abu-Yosef-Masar-Code-ecommerce-frontend-with-json/data.html").then(res => res.text()).then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
             const jsonText = doc.querySelector("#products-data").textContent;
