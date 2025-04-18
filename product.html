@@ -1200,8 +1200,9 @@
         const productId = parseInt(params.get("id"));
 
         let selectedSize = ""; // ✅ متغير المقاس المختار
+        const baseUrl = "https://10youseftarek.github.io/Abu-Yosef-Masar-Code-ecommerce-frontend-with-json/";
 
-        fetch("https://10youseftarek.github.io/Abu-Yosef-Masar-Code-ecommerce-frontend-with-json/data.html").then(res => res.text()).then(html => {
+        fetch(baseUrl+"data.html").then(res => res.text()).then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
             const jsonText = doc.querySelector("#products-data").textContent;
