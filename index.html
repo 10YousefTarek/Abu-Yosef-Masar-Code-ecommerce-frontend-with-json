@@ -1005,7 +1005,7 @@
 
     <script>
 
-        const baseUrl = "https://10youseftarek.github.io/Abu-Yosef-Masar-Code-ecommerce-frontend-with-json/";
+        const baseUrl = "http://localhost:8000/";
         fetch(baseUrl+"data.html").then(res => res.text()).then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
